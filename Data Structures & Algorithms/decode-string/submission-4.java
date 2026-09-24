@@ -1,0 +1,33 @@
+class Solution {
+    public String decodeString(String s) {
+        Deque<Integer> times=new ArrayDeque<>(); 
+
+        Deque<StringBuilder> str=new ArrayDeque<>(); 
+        StringBuilder cur=new StringBuilder();
+        int k=0;
+        for(char c:s.toCharArray()){ 
+            if(Character.isDigit(c)){ 
+                k= k*10+(c-'0');
+            }
+
+            else if(c=='['){ 
+                times.push(k);
+                str.push(cur);
+                cur=new StringBuilder();
+                k=0;
+                
+            }
+            else if(c==']'){
+                StringBuilder prev=str.pop();
+                int n=times.pop(); 
+                prev.append(String.valueOf(cur).repeat(n)); 
+                cur=prev;
+            }
+            else{
+                cur.append(c);
+            }
+        } 
+
+        return cur.toString();
+    }
+}
